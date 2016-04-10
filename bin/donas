@@ -1,0 +1,51 @@
+#! /usr/bin/env ruby
+# encoding: UTF-8
+
+trap(:INT) { exit 1 }
+
+def flunk(message)
+  $stderr.puts usage
+  $stderr.puts message
+  exit 1
+end
+
+def summary(line)
+  flunk("Error: Please provide a domain.") if line.nil? || line.empty?
+  flunk("Error: One domain at a time.") if line.size > 1
+
+  require "donas"
+
+  domain = line.first
+  summ = Donas.summary domain
+
+  puts "Domain: #{domain}\n"
+  puts "IP: #{Donas.get_address(domain)}"
+
+  puts "\nName servers:"
+  show_list Donas.nameservers(domain) do |record|
+    puts record.name.to_s
+  end
+
+  puts "\nMX records:"
+  show_list Donas.mx_records(domain) do |record|
+    puts "#{record.preference} #{record.exchange.to_s}"
+  end
+end
+
+def show_list(records)
+  if records.empty?
+    puts "(none)"
+  else
+    records.each do |record|
+      yield record
+    end
+  end
+end
+
+def usage
+  "usage: donas example.com\n"
+end
+
+###
+
+summary(ARGV)
