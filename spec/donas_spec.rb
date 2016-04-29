@@ -56,6 +56,25 @@ describe Donas do
     end
   end
 
+  describe "Donas.a_record" do
+    context "with an invalid domain" do
+      it "returns nil" do
+        domain = "jkldsjflasjdflksajflksjaflkjsadklfjlsakfdjlsafdjlksadfj.com"
+        a = Donas.a_record(domain)
+        expect(a).to eq nil
+      end
+    end
+
+    context "with a valid domain" do
+      it "returns a Resolv::DNS::Resource::IN::A" do
+        domain = "www.ombushop.com"
+        a = Donas.a_record(domain)
+        expect(a).to be_a Resolv::DNS::Resource::IN::A
+        expect(a.address.to_s).to eql "50.16.228.254"
+      end
+    end
+  end
+
   describe "Donas.mx_records" do
     context "with an invalid domain" do
       it "returns an empty array" do

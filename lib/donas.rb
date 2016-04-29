@@ -8,6 +8,14 @@ class Donas
   # Returns an {Array} with {Resolv::DNS::Resource::IN::MX} objects.
   #
   # @param [String] domain
+  # @return [Resolv::DNS::Resource::IN::A]
+  def self.a_record(domain)
+    resolver.getresources(safe(domain), Resolv::DNS::Resource::IN::A).first
+  end
+
+  # Returns an {Array} with {Resolv::DNS::Resource::IN::MX} objects.
+  #
+  # @param [String] domain
   # @return [Array]
   def self.mx_records(domain)
     resolver.getresources(safe(domain), Resolv::DNS::Resource::IN::MX)

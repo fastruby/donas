@@ -48,6 +48,8 @@ If you want to use it in your application:
 This will return A, TXT, NS and CNAME records.
 
 ```ruby
+> Donas.a_record "www.ombushop.com"
+=> #<Resolv::DNS::Resource::IN::A:0x007f831d16c220 @address=#<Resolv::IPv4 50.16.228.254>, @ttl=59>
 > Donas.get_record "ombulabs.com"
 => #<Resolv::DNS::Resource::IN::A:0x007f831d16c220 @address=#<Resolv::IPv4 50.16.228.254>, @ttl=59>
 > Donas.get_record "shop.ombulabs.com"
